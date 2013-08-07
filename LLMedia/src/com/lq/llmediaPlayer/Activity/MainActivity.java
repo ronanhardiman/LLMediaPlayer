@@ -1,4 +1,8 @@
-package com.lq.llmedia;
+package com.lq.llmediaPlayer.Activity;
+
+import com.lq.llmediaPlayer.R;
+import com.lq.llmediaPlayer.R.layout;
+import com.lq.llmediaPlayer.R.menu;
 
 import android.os.Bundle;
 import android.app.Activity;

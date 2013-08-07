@@ -1,5 +1,5 @@
 /** Automatically generated file. DO NOT MODIFY */
-package com.lq.llmedia;
+package com.lq.llmediaPlayer;
 
 public final class BuildConfig {
     public final static boolean DEBUG = true;

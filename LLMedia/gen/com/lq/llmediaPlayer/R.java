@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.lq.llmedia;
+package com.lq.llmediaPlayer;
 
 public final class R {
     public static final class attr {
