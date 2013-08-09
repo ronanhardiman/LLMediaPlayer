@@ -1,6 +1,8 @@
 # Android generated
-bin
-gen
+bin/
+gen/
+/proguard
+/project
 
 # Ant
 build.xml
