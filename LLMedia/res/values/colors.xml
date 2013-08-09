@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- selected tab text -->
+    <color name="selected_tabtext">#bb000000</color>
+    
+    <!-- non selected tab text -->
+    <color name="unselected_tabtext">#77000000</color>
+</resources>

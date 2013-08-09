@@ -2,6 +2,8 @@ package com.lq.llmediaPlayer.Adapters;
 
 import java.util.ArrayList;
 
+import com.lq.llmediaPlayer.Fragment.RecentlyAddedFragment;
+
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -28,6 +30,11 @@ public class PagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public long getItemId(int position) {
 		return super.getItemId(position);
+	}
+
+	public void addFragment(Fragment fragment) {
+		mFragments.add(fragment);
+		notifyDataSetChanged();
 	}
 
 }

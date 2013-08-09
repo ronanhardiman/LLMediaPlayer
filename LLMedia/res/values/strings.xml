@@ -7,6 +7,9 @@
 	
     <string name="media_search">搜索</string>
     
+    <string name="widget_style_dark">Holo Dark</string>
+    <string name="widget_style_light">Holo Light</string>
+    
     <!-- Options MenuItems -->
     <string name="settings">设置</string>
     <string name="shuffle_all">全部随机播放</string>
@@ -31,4 +34,18 @@
     <string name="cd_play">暂停/继续</string>
     <string name="cd_next">下一首</string>
     <string name="cd_shuffle">随机播放</string>
+    
+     <!-- Tabs -->
+    <string name="tab_recent">Recent</string>
+    <string name="tab_artists">Artists</string>
+    <string name="tab_albums">Albums</string>
+    <string name="tab_songs">Songs</string>
+    <string name="tab_playlists">Playlists</string>
+    <string name="tab_genres">Genres</string>
+    
+    <!-- Visualizations -->
+    <string name="visual_none">None</string>
+    <string name="visual_bargraph">Bar Graph</string>
+    <string name="visual_solidbargraph">Solid Bar Graph</string>
+    <string name="visual_waveform">Waveform</string>
 </resources>
