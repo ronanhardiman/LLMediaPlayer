@@ -15,7 +15,6 @@ import android.provider.MediaStore.Audio;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 
 import com.lq.llmediaPlayer.R;
