@@ -13,7 +13,10 @@ import com.lq.llmediaPlayer.Widgets.ScrollAbleTabView;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ComponentName;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.provider.BaseColumns;
 import android.provider.MediaStore.Audio;
 import android.support.v4.view.ViewPager;
@@ -22,7 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class NavigateFragment extends Fragment{
+public class NavigateFragment extends Fragment implements ServiceConnection{
 	private NavigateActivity navigateActivity;
 	private ViewPager mViewPager;
 	private ScrollAbleTabView mScrollingTabs;
@@ -68,6 +71,16 @@ public class NavigateFragment extends Fragment{
 		ScrollingTabsAdapter scrollingTabsAdapter = new ScrollingTabsAdapter(navigateActivity);
 		mScrollingTabs.setAdapter(scrollingTabsAdapter);
 		mScrollingTabs.setViewPager(mViewPager);
+		
+	}
+
+	@Override
+	public void onServiceConnected(ComponentName name, IBinder service) {
+		
+	}
+
+	@Override
+	public void onServiceDisconnected(ComponentName name) {
 		
 	}
 }

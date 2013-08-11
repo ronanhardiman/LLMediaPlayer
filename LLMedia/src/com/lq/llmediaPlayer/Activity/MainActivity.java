@@ -7,9 +7,13 @@ import java.util.Set;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.provider.BaseColumns;
 import android.provider.MediaStore.Audio;
 import android.support.v4.view.ViewPager;
@@ -21,10 +25,17 @@ import com.lq.llmediaPlayer.R;
 import com.lq.llmediaPlayer.Adapters.PagerAdapter;
 import com.lq.llmediaPlayer.Adapters.ScrollingTabsAdapter;
 import com.lq.llmediaPlayer.Config.Constants;
+import com.lq.llmediaPlayer.Fragment.ArtistsFragment;
 import com.lq.llmediaPlayer.Fragment.RecentlyAddedFragment;
+import com.lq.llmediaPlayer.Service.LLMediaService;
+import com.lq.llmediaPlayer.Service.MediaService;
+import com.lq.llmediaPlayer.Service.ServiceToken;
+import com.lq.llmediaPlayer.Utils.MusicUtils;
 import com.lq.llmediaPlayer.Widgets.ScrollAbleTabView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements ServiceConnection{
+
+	private ServiceToken mToken;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +44,28 @@ public class MainActivity extends Activity {
 		
 		initView();
 		
+	}
+	
+	@Override
+	protected void onStart() {
+		mToken = MusicUtils.bindToService(this,this);
+		
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(LLMediaService.META_CHANGED);
+		super.onStart();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+	
+	@Override
+	protected void onStop() {
+		if(MusicUtils.mService != null){
+			MusicUtils.unbindFromService(mToken);
+		}
+		super.onStop();
 	}
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -58,7 +91,7 @@ public class MainActivity extends Activity {
 		}
 		// Artists
         if(defaults.contains(getResources().getString(R.string.tab_artists))){
-        	mPagerAdapter.addFragment(new RecentlyAddedFragment(bundle));
+        	mPagerAdapter.addFragment(new ArtistsFragment());
         }
 //        	mPagerAdapter.addFragment(new ArtistsFragment());
         // Albums
@@ -120,6 +153,16 @@ public class MainActivity extends Activity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		return super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
+	public void onServiceConnected(ComponentName name, IBinder service) {
+		MusicUtils.mService = MediaService.Stub.asInterface(service);
+	}
+
+	@Override
+	public void onServiceDisconnected(ComponentName name) {
+		MusicUtils.mService = null;
 	}
 
 }

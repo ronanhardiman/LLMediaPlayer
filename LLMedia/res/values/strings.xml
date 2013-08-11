@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    
+     <!-- Used to indicate the number of songs for an album -->
+
+    <plurals name="Nsongs">
+
+        <!-- Number of songs is one -->
+        <item quantity="one">1 首歌曲</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> 首歌曲</item>
+    </plurals>
+    <!-- Used to indicate the number of albums for an artist -->
+    <plurals name="Nalbums">
+
+        <!-- Number of albums is one -->
+        <item quantity="one">1 张专辑</item>
+        <!-- Number of albums is more than one -->
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> 张专辑</item>
+    </plurals>
+    
 	<string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     
@@ -36,6 +54,14 @@
     <string name="cd_play">暂停/继续</string>
     <string name="cd_next">下一首</string>
     <string name="cd_shuffle">随机播放</string>
+    
+    <!-- ContextMenu items -->
+    <string name="play_all">全部播放</string>
+    <string name="add_to_playlist">添加到播放列表</string>
+    <string name="use_as_ringtone">设置为手机铃声</string>
+    <string name="delete_playlist">删除播放列表</string>
+    <string name="search">搜索</string>
+    <string name="remove">从播放列表中移除</string>
     
      <!-- Tabs -->
     <string name="tab_recent">Recent</string>

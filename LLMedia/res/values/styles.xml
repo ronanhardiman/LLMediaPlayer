@@ -1,5 +1,47 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-
+	
+    <!-- ContextMenu header text -->
+    <style name="HeaderText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:paddingTop">@dimen/header_text_padding</item>
+        <item name="android:paddingLeft">@dimen/header_text_padding_left</item>
+        <item name="android:paddingBottom">@dimen/header_text_padding</item>
+        <item name="android:paddingRight">@dimen/header_text_padding</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
+    </style>
+    
+    <!-- TextView in shown over the images in the GridView -->
+    <style name="GridViewTextItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:shadowColor">@color/white</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
+    
+    <!--  TextView with drop-shadow and white text -->
+    <style name="GridviewShadowedText" parent="GridViewTextItem">        
+	    <item name="android:shadowColor">#000000</item>
+	    <item name="android:shadowDx">1</item>
+	    <item name="android:shadowDy">1</item>
+	    <item name="android:shadowRadius">1.5</item> 
+    </style>
+    
+    <!--  Black top border  -->
+    <style name="Topborderline"> 
+	    <item name="android:layout_width">match_parent</item>
+	    <item name="android:layout_height">2dp</item>
+	    <item name="android:background">@color/black</item>
+    </style>
+    
     <!--
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
