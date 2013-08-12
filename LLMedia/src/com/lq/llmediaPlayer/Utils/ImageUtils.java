@@ -94,4 +94,9 @@ public class ImageUtils {
 		return null;
 	}
 
+	public static File getImageFromGallery(Context context, ImageInfo mImageInfo) {
+		
+		return null;
+	}
+
 }

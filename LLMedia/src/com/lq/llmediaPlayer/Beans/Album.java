@@ -3,6 +3,8 @@ package com.lq.llmediaPlayer.Beans;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.lq.llmediaPlayer.Helper.Caller;
+import com.lq.llmediaPlayer.Helper.Result;
 import com.lq.llmediaPlayer.Interface.ItemFactory;
 import com.lq.llmediaPlayer.Utils.StringUtilities;
 /**

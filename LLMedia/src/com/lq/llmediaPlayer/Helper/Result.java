@@ -1,6 +1,8 @@
-package com.lq.llmediaPlayer.Beans;
+package com.lq.llmediaPlayer.Helper;
 
 import org.w3c.dom.Document;
+
+import com.lq.llmediaPlayer.Beans.DomElement;
 /**
  * The <code>Result</code> class contains the response sent by the server, i.e. the status (either ok or failed),
  * an error code and message if failed and the xml response sent by the server.
