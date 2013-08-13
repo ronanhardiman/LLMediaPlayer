@@ -70,7 +70,7 @@ public class GetBitmapTask extends AsyncTask<String, Integer, Bitmap> {
         	if( mImageInfo.type.equals( Constants.TYPE_ALBUM ) ){
         		nFile = ImageUtils.getImageFromMediaStore( context, mImageInfo );
         	}
-        	if( nFile == null && ( mImageInfo.type.equals( Constants.TYPE_ALBUM ) || mImageInfo.type.equals( TYPE_ARTIST ) ) )
+        	if( nFile == null && ( mImageInfo.type.equals( Constants.TYPE_ALBUM ) || mImageInfo.type.equals( Constants.TYPE_ARTIST ) ) )
         		nFile = ImageUtils.getImageFromWeb( context, mImageInfo );
         }
         if( nFile != null ){        	

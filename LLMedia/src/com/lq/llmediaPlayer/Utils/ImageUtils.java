@@ -11,6 +11,7 @@ import java.io.OutputStream;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.provider.MediaStore.Audio;
@@ -96,6 +97,24 @@ public class ImageUtils {
 
 	public static File getImageFromGallery(Context context, ImageInfo mImageInfo) {
 		
+		return null;
+	}
+
+	public static Bitmap getNormalImageFromDisk(Context context,
+			ImageInfo mImageInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static Bitmap getThumbImageFromDisk(Context context,
+			ImageInfo mImageInfo, int mThumbSize) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static Bitmap getThumbImageFromDisk(Context context, File nFile,
+			int mThumbSize) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
