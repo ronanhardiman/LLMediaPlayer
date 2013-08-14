@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
+    <!-- ListView padding when header is applied -->
+    <integer name="listview_padding_left">16</integer>
+    <integer name="listview_padding_right">32</integer>
+    
     <!-- ViewPager margin width -->
     <integer name="viewpager_margin_width">5</integer>
     
@@ -9,4 +13,5 @@
     
     <!-- Now playing indicator animation time -->
     <integer name="peak">200</integer>
+    
 </resources>
