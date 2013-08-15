@@ -1,12 +1,11 @@
 package com.lq.llmediaPlayer.Utils;
-
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.Locale;
-
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -19,10 +18,16 @@ import android.net.Uri;
 import android.os.RemoteException;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.provider.MediaStore.Audio;
+import android.provider.MediaStore.MediaColumns;
 import android.provider.MediaStore.Audio.AudioColumns;
+import android.provider.MediaStore.Audio.Playlists;
+import android.provider.MediaStore.Audio.PlaylistsColumns;
+import android.widget.Toast;
 
 import com.lq.llmediaPlayer.R;
+import com.lq.llmediaPlayer.Config.Constants;
 import com.lq.llmediaPlayer.Service.LLMediaService;
 import com.lq.llmediaPlayer.Service.MediaService;
 import com.lq.llmediaPlayer.Service.ServiceBinder;
@@ -325,5 +330,137 @@ public class MusicUtils {
 		title = "Search " + title;
 		i.putExtra(SearchManager.QUERY, query);
 		mContext.startActivity(Intent.createChooser(i, title));
+	}
+
+	public static long[] getQueue() {
+		if(mService == null){
+			return sEmptyList;
+		}
+		try {
+			return mService.getQueue();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return sEmptyList;
+	}
+
+	public static long getFavoritesId(Context context) {
+		long favorites_id = -1;
+        String favorites_where = PlaylistsColumns.NAME + "='" + "Favorites" + "'";
+        String[] favorites_cols = new String[] {
+            BaseColumns._ID
+        };
+        Uri favorites_uri = Audio.Playlists.EXTERNAL_CONTENT_URI;
+        Cursor cursor = query(context, favorites_uri, favorites_cols, favorites_where, null, null);
+        if (cursor.getCount() <= 0) {
+            favorites_id = createPlaylist(context, "Favorites");
+        } else {
+            cursor.moveToFirst();
+            favorites_id = cursor.getLong(0);
+            cursor.close();
+        }
+		return favorites_id;
+	}
+
+	private static long createPlaylist(Context context, String name) {
+		if (name != null && name.length() > 0) {
+            ContentResolver resolver = context.getContentResolver();
+            String[] cols = new String[] {
+                PlaylistsColumns.NAME
+            };
+            String whereclause = PlaylistsColumns.NAME + " = '" + name + "'";
+            Cursor cur = resolver.query(Audio.Playlists.EXTERNAL_CONTENT_URI, cols, whereclause,
+                    null, null);
+            if (cur.getCount() <= 0) {
+                ContentValues values = new ContentValues(1);
+                values.put(PlaylistsColumns.NAME, name);
+                Uri uri = resolver.insert(Audio.Playlists.EXTERNAL_CONTENT_URI, values);
+                return Long.parseLong(uri.getLastPathSegment());
+            }
+            return -1;
+        }
+		return -1;
+	}
+
+	public static void setRingtone(Context context, long id) {
+		ContentResolver resolver = context.getContentResolver();
+        // Set the flag in the database to mark this as a ringtone
+        Uri ringUri = ContentUris.withAppendedId(Audio.Media.EXTERNAL_CONTENT_URI, id);
+        try {
+            ContentValues values = new ContentValues(2);
+            values.put(AudioColumns.IS_RINGTONE, "1");
+            values.put(AudioColumns.IS_ALARM, "1");
+            resolver.update(ringUri, values, null, null);
+        } catch (UnsupportedOperationException ex) {
+            // most likely the card just got unmounted
+            return;
+        }
+
+        String[] cols = new String[] {
+                BaseColumns._ID, MediaColumns.DATA, MediaColumns.TITLE
+        };
+
+        String where = BaseColumns._ID + "=" + id;
+        Cursor cursor = query(context, Audio.Media.EXTERNAL_CONTENT_URI, cols, where, null, null);
+        try {
+            if (cursor != null && cursor.getCount() == 1) {
+                // Set the system setting to make this the current ringtone
+                cursor.moveToFirst();
+                Settings.System.putString(resolver, Settings.System.RINGTONE, ringUri.toString());
+                String message = context.getString(R.string.set_as_ringtone, cursor.getString(2));
+                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+		
+	}
+
+	public static int removeTrack(long id) {
+		if (mService == null)
+            return 0;
+
+        try {
+            return mService.removeTrack(id);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return 0;
+	}
+
+	public static void removeFromFavorites(Context context, long id) {
+		long favorites_id;
+        if (id < 0) {
+        } else {
+            ContentResolver resolver = context.getContentResolver();
+            String favorites_where = PlaylistsColumns.NAME + "='" + Constants.PLAYLIST_NAME_FAVORITES + "'";
+            String[] favorites_cols = new String[] {
+                BaseColumns._ID
+            };
+            Uri favorites_uri = Audio.Playlists.EXTERNAL_CONTENT_URI;
+            Cursor cursor = resolver.query(favorites_uri, favorites_cols, favorites_where, null,
+                    null);
+            if (cursor.getCount() <= 0) {
+                favorites_id = createPlaylist(context, Constants.PLAYLIST_NAME_FAVORITES);
+            } else {
+                cursor.moveToFirst();
+                favorites_id = cursor.getLong(0);
+                cursor.close();
+            }
+            Uri uri = Playlists.Members.getContentUri(Constants.EXTERNAL, favorites_id);
+            resolver.delete(uri, Playlists.Members.AUDIO_ID + "=" + id, null);
+        }
+	}
+
+	public static int getQueuePosition() {
+		 if (mService == null)
+	            return 0;
+	        try {
+	            return mService.getQueuePosition();
+	        } catch (RemoteException e) {
+	        }
+		return 0;
 	}
 }

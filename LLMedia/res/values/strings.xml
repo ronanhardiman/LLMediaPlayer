@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     
+    <!-- Set track as ringtone -->
+    <string name="set_as_ringtone">\"<xliff:g id="name" example="Alarm Bell">%s</xliff:g>\" 设置为手机铃声</string>
+    
+    
     <!-- Headers -->
     <string name="album_header">专辑列表</string>
     <string name="track_header">曲目列表</string>

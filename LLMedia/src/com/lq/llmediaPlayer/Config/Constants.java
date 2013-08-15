@@ -29,4 +29,8 @@ public final class Constants {
             INTENT_RENAME_PLAYLIST = "com.andrew.apolloMod.RENAME_PLAYLIST",
             INTENT_KEY_RENAME = "rename", INTENT_KEY_DEFAULT_NAME = "default_name";
 
+    //Storage Volume 外部存储器
+    public final static String EXTERNAL = "external";
+    
+    
 }
