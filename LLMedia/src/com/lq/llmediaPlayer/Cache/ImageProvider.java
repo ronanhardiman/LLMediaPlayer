@@ -1,11 +1,12 @@
 package com.lq.llmediaPlayer.Cache;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.WeakHashMap;
 
 import com.lq.llmediaPlayer.AsyncTask.GetBitmapTask;
-import com.lq.llmediaPlayer.AsyncTask.GetBitmapTask.OnBitmapReadListener;
 import com.lq.llmediaPlayer.Config.Constants;
 import com.lq.llmediaPlayer.Utils.ImageUtils;
 
@@ -13,10 +14,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
 
-public class ImageProvider implements GetBitmapTask.OnBitmapReadListener{
+public class ImageProvider implements GetBitmapTask.OnBitmapReadyListener{
 	private static ImageProvider mInstance;
 	private Context mContext;
 	private ImageCache mCache;
@@ -45,8 +47,16 @@ public class ImageProvider implements GetBitmapTask.OnBitmapReadListener{
 	}
 
 	private void asyncLoad(String tag, ImageView imageView,
-			GetBitmapTask getBitmapTask) {
-		
+			AsyncTask<String, Integer, Bitmap> task) {
+		Set<ImageView> pendingImages = pendingImagesMap.get(tag);
+        if (pendingImages == null) {
+            pendingImages = Collections.newSetFromMap(new WeakHashMap<ImageView, Boolean>()); // create weak set
+            pendingImagesMap.put(tag, pendingImages);
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }
+        pendingImages.add(imageView);
+        imageView.setTag(tag);
+        imageView.setImageDrawable(null);
 	}
 
 	private boolean setCachedBitmap(ImageView imageView, String tag) {
@@ -91,8 +101,13 @@ public class ImageProvider implements GetBitmapTask.OnBitmapReadListener{
 	public static final ImageProvider getInstance(Activity activity) {
 		if(mInstance == null){
 			mInstance = new ImageProvider(activity);
+			mInstance.setImageCache(ImageCache.findOrCreateCache(activity));
 		}
-		return null;
+		return mInstance;
+	}
+	
+	public void setImageCache(final ImageCache cacheCallBack){
+		mCache = cacheCallBack;
 	}
 
 	@Override

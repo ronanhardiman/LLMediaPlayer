@@ -1,13 +1,17 @@
 package com.lq.llmediaPlayer.Cache;
 
+
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.LruCache;
 
 public class ImageCache {
+	private static final String TAG = ImageCache.class.getSimpleName();
 	private LruCache<String, Bitmap> mLruCache;
 	private static ImageCache instance;
 	public ImageCache(Context applicationContext) {
@@ -23,6 +27,22 @@ public class ImageCache {
 			}
 		};
 	}
+	
+	public static final ImageCache findOrCreateCache(final Activity activity){
+		FragmentManager nFragmentManager = activity.getFragmentManager();
+		RetainFragment retainFragment = (RetainFragment) nFragmentManager.findFragmentByTag(TAG);
+		if(retainFragment == null){
+			retainFragment = new RetainFragment();
+			nFragmentManager.beginTransaction().add(retainFragment, TAG).commit();
+		}
+		ImageCache cache = (ImageCache) retainFragment.getObject();
+		if(cache == null){
+			cache = getInstance(activity);
+			retainFragment.setObject(cache);
+		}
+		return cache;
+	}
+	
 	public final static ImageCache getInstance(Context context) {
 		if(instance == null){
 			instance  = new ImageCache(context.getApplicationContext());

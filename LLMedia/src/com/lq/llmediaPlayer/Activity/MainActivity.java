@@ -25,6 +25,7 @@ import com.lq.llmediaPlayer.R;
 import com.lq.llmediaPlayer.Adapters.PagerAdapter;
 import com.lq.llmediaPlayer.Adapters.ScrollingTabsAdapter;
 import com.lq.llmediaPlayer.Config.Constants;
+import com.lq.llmediaPlayer.Fragment.AlbumsFragment;
 import com.lq.llmediaPlayer.Fragment.ArtistsFragment;
 import com.lq.llmediaPlayer.Fragment.RecentlyAddedFragment;
 import com.lq.llmediaPlayer.Service.LLMediaService;
@@ -96,7 +97,7 @@ public class MainActivity extends Activity implements ServiceConnection{
 //        	mPagerAdapter.addFragment(new ArtistsFragment());
         // Albums
         if(defaults.contains(getResources().getString(R.string.tab_albums))){
-        	mPagerAdapter.addFragment(new RecentlyAddedFragment(bundle));
+        	mPagerAdapter.addFragment(new AlbumsFragment());
         }
 //        	mPagerAdapter.addFragment(new AlbumsFragment());
         // // Tracks

@@ -1,4 +1,5 @@
 package com.lq.llmediaPlayer.AsyncTask;
+
 import java.io.File;
 import java.lang.ref.WeakReference;
 
@@ -6,13 +7,15 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+
+import com.lq.llmediaPlayer.R;
 import com.lq.llmediaPlayer.Cache.ImageInfo;
 import com.lq.llmediaPlayer.Config.Constants;
 import com.lq.llmediaPlayer.Utils.ImageUtils;
 
 public class GetBitmapTask extends AsyncTask<String, Integer, Bitmap> {
 	
-	private WeakReference<OnBitmapReadListener> mListenerReference;
+	private WeakReference<OnBitmapReadyListener> mListenerReference;
 	
 	private WeakReference<Context> mContextReference;
 	
@@ -21,14 +24,14 @@ public class GetBitmapTask extends AsyncTask<String, Integer, Bitmap> {
 	private int mThumbSize;
 	
 	public GetBitmapTask(int thumbSize, ImageInfo imageInfo,
-			OnBitmapReadListener listener, Context context) {
-		mListenerReference = new WeakReference<OnBitmapReadListener>(listener);
+			OnBitmapReadyListener listener, Context context) {
+		mListenerReference = new WeakReference<OnBitmapReadyListener>(listener);
 		mContextReference = new WeakReference<Context>(context);
 		mImageInfo = imageInfo;
 		mThumbSize = thumbSize;
 	}
 
-	public static interface OnBitmapReadListener {
+	public static interface OnBitmapReadyListener {
 		public void bitmapReady(Bitmap bitmap, String tag);
 	}
 
@@ -84,8 +87,21 @@ public class GetBitmapTask extends AsyncTask<String, Integer, Bitmap> {
 	}
 
 	@Override
-	protected void onPostExecute(Bitmap result) {
-		// TODO Auto-generated method stub
-		super.onPostExecute(result);
+	protected void onPostExecute(Bitmap bitmap) {
+		super.onPostExecute(bitmap);
+		OnBitmapReadyListener listener = mListenerReference.get();
+        if(bitmap == null && !isCancelled()){
+        	if(mImageInfo.size.equals(Constants.SIZE_THUMB))
+        		bitmap = BitmapFactory.decodeResource(mContextReference.get().getResources(),
+        													R.drawable.no_art_small);
+        	else if(mImageInfo.size.equals(Constants.SIZE_NORMAL))
+        		bitmap = BitmapFactory.decodeResource(mContextReference.get().getResources(),
+        													R.drawable.no_art_normal);
+        }
+        if (bitmap != null && !isCancelled()) {
+            if (listener != null) {
+                	listener.bitmapReady(bitmap,  ImageUtils.createShortTag(mImageInfo) + mImageInfo.size );
+            }
+        }
 	}
 }

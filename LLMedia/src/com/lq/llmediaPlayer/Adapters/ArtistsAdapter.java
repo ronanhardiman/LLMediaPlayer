@@ -11,6 +11,7 @@ import com.lq.llmediaPlayer.Fragment.ArtistsFragment;
 import com.lq.llmediaPlayer.Utils.MusicUtils;
 import com.lq.llmediaPlayer.Views.ViewHolderGrid;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.AnimationDrawable;
@@ -29,6 +30,7 @@ public class ArtistsAdapter extends SimpleCursorAdapter{
 			String[] from, int[] to,int flags) {
 		super(context,layout,c,from,to,flags);
 		this.mContext = context;
+		mImageProvider = ImageProvider.getInstance((Activity) mContext);
 	}
 	
 	@Override
